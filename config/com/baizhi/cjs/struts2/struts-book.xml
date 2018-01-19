@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 首页显示图书页面 -->
+	<package name="book" extends="struts-default" namespace="/book">
+		<!-- 显示推荐图书 -->
+		<action name="bookGrooms" class="com.baizhi.cjs.action.BookAction" method="bookGrooms"> 
+			<result name="success" type="dispatcher">/main/recommend.jsp</result>
+		</action>
+		<!-- 显示热销图书 -->
+		<action name="bookFire" class="com.baizhi.cjs.action.BookAction" method="bookFire">
+			<result name="success" type="dispatcher">/main/hot.jsp</result>
+		</action>
+		<!-- 显示最新上架图书 -->
+		<action name="bookNew" class="com.baizhi.cjs.action.BookAction" method="bookNew"> 
+			<result name="success" type="dispatcher">/main/new.jsp</result>
+		</action>
+		<!-- 显示新书热销图书 -->
+		<action name="bookNewFire" class="com.baizhi.cjs.action.BookAction" method="bookNewFire">
+			<result name="success" type="dispatcher">/main/hotBoard.jsp</result>
+		</action>
+		<!-- 根据id查询图书 -->
+		<action name="findBookById" class="com.baizhi.cjs.action.BookAction" method="findBookById">
+			<result name="success" type="dispatcher">/main/book_detail.jsp</result>
+		</action>
+	</package>
+</struts>

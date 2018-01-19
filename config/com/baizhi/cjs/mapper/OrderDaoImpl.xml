@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.cjs.dao.OrderDao">
+
+	<!-- 添加订单 -->
+	<insert id="insertOrder" parameterType="com.baizhi.cjs.entity.Order">
+		<selectKey resultType="int" keyProperty="id" order="BEFORE">
+			select d_order_seq.nextval from dual
+		</selectKey>
+		insert into d_order values(#{id},#{orderId},#{total},#{orderDate},#{orderState},#{address.id},#{user.id})
+	</insert>
+	<!-- 修改订单 -->
+	<update id="updateOrder" parameterType="com.baizhi.cjs.entity.Order">
+		update d_order set order_id=#{orderId},total=#{total},order_date=#{orderDate},order_state=#{orderState},address_id=#{address.id},user_id=#{user.id} where id=#{id}
+	</update>
+	<!-- 根据订单号查询订单 -->
+	<select id="selectOrderByOrderId" parameterType="java.lang.Integer" resultMap="orderMap">
+		select o.id oid,order_id orderId,total,order_date odate,order_state ostate,a.id aid,u.id userid 
+		from d_order o left join d_address a
+		on o.address_id=a.id
+		left join d_user u
+		on o.user_id=u.id
+		where o.order_id=#{id}
+	</select>
+	
+	<resultMap id="orderMap" type="com.baizhi.cjs.entity.Order">
+		<id column="oid" property="id"/>
+		<result column="orderId" property="orderId"/>
+		<result column="total" property="total"/>
+		<result column="odate" property="orderDate"/>
+		<result column="ostate" property="orderState"/>
+		<association property="address" javaType="com.baizhi.cjs.entity.Address">
+			<id column="aid" property="id"/>
+		</association>
+		<association property="user" javaType="com.baizhi.cjs.entity.User">
+			<id column="userid" property="id"/>
+		</association>
+	</resultMap>
+</mapper>

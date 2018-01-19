@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.cjs.dao.UserDao">
+
+	<!-- 查询所有用户信息 -->
+	<select id="selectUserAll" resultMap="userMap">
+		select u.id id,email,nickname,password,u.state ustate,register_date rd,last_date ld,code,a.id aid,rec_name aname,address,post_code pcode,telphone,mobile,default_address daddress,address_state astate,o.id oid,order_id orderid,total,order_date odate,order_state ostate
+		from d_user u left join d_address a on u.id=a.user_id 
+		left join d_order o on u.id=o.user_id
+	</select>
+	<!-- 增加用户 -->
+	<insert id="insertUser" parameterType="com.baizhi.cjs.entity.User">
+		<selectKey resultType="int" keyProperty="id" order="BEFORE">
+			select d_user_seq.nextval from dual
+		</selectKey>
+		insert into d_user values(#{id},#{email},#{nickName},#{password},#{state},#{registerDate},#{lastDate},#{code})
+	</insert>
+	<!-- 删除用户 -->
+	<delete id="deleteUserById" parameterType="java.lang.Integer">
+		delete from d_user where id=#{id}
+	</delete>
+	<!-- 修改用户信息 -->
+	<update id="updateUser" parameterType="com.baizhi.cjs.entity.User">
+		update d_user set email=#{email},nickname=#{nickName},password=#{password},state=#{state},register_date=#{registerDate},last_date=#{lastDate},code=#{code}
+		where id=#{id}
+	</update>
+	<!-- 根据id查询用户 -->
+	<select id="selectUserById" resultMap="userMap" parameterType="java.lang.Integer">
+		select u.id id,email,nickname,password,u.state ustate,register_date rd,last_date ld,code,a.id aid,rec_name aname,address,post_code pcode,telphone,mobile,default_address daddress,address_state astate,o.id oid,order_id orderid,total,order_date odate,order_state ostate
+		from d_user u left join d_address a on u.id=a.user_id 
+		left join d_order o on u.id=o.user_id
+		where u.id=#{id}
+	</select>
+	<!-- 根据email查询用户 -->
+	<select id="selectUserByEmail" resultMap="userMap" parameterType="java.lang.String">
+		select u.id id,email,nickname,password,u.state ustate,register_date rd,last_date ld,code,a.id aid,rec_name aname,address,post_code pcode,telphone,mobile,default_address daddress,address_state astate,o.id oid,order_id orderid,total,order_date odate,order_state ostate
+		from d_user u left join d_address a on u.id=a.user_id 
+		left join d_order o on u.id=o.user_id
+		where u.email=#{email}
+	</select>
+	
+	<resultMap id="userMap" type="com.baizhi.cjs.entity.User">
+		<id column="id" property="id"/>
+		<result column="email" property="email"/>
+		<result column="nickname" property="nickName"/>
+		<result column="password" property="password"/>
+		<result column="ustate" property="state"/>
+		<result column="rd" property="registerDate"/>
+		<result column="ld" property="lastDate"/>
+		<result column="code" property="code"/>
+		<collection property="addresses" ofType="com.baizhi.cjs.entity.Address">
+			<id column="aid" property="id"/>
+			<result column="aname" property="recName"/>
+			<result column="address" property="address"/>
+			<result column="pcode" property="postCode"/>
+			<result column="telphone" property="telphone"/>
+			<result column="mobile" property="mobile"/>
+			<result column="daddress" property="defaultAddress"/>
+			<result column="astate" property="addressState"/>
+		</collection>
+		<collection property="orders" ofType="com.baizhi.cjs.entity.Order">
+			<id column="oid" property="id"/>
+			<result column="orderid" property="orderId"/>
+			<result column="total" property="total"/>
+			<result column="odate" property="orderDate"/>
+			<result column="ostate" property="orderState"/>
+		</collection>
+	</resultMap>
+	
+	
+</mapper>

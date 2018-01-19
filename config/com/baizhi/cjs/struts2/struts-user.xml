@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="user" extends="struts-default" namespace="/user">
+		<!-- 跳转到订单页面 -->
+		<global-results>
+			<result name="buy">/order/order_info.jsp</result>
+		</global-results>
+		<!-- 用户登陆 -->
+		<action name="loginUser" class="com.baizhi.cjs.action.UserAction" method="loginUser">
+			<result name="success" type="redirect">/main/main.jsp</result>
+		</action>
+		<!-- 用户注册 -->
+		<action name="registerUser" class="com.baizhi.cjs.action.UserAction" method="registerUser">
+			<result name="success" type="redirect">/user/verify_form.jsp</result>
+		</action>
+		<!-- 用户登出功能 -->
+		<action name="quitUser" class="com.baizhi.cjs.action.UserAction" method="quitUser">
+			<result name="success" type="redirect">/main/main.jsp</result>
+		</action>
+		<!-- 用户邮箱验证 -->
+		<action name="checkUser" class="com.baizhi.cjs.action.UserAction" method="checkUser">
+			<result name="success" type="redirect">/user/register_ok.jsp</result>
+		</action>
+		<!-- 查询邮箱是否存在 -->
+		<action name="queryEmail" class="com.baizhi.cjs.action.UserAction" method="queryEmail"></action>
+	</package>
+</struts>

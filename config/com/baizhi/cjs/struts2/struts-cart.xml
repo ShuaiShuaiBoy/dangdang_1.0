@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="cart" extends="struts-default" namespace="/cart">
+		<!-- 自定义拦截器 -->
+		<interceptors>
+			<interceptor name="loginCheck" class="com.baizhi.cjs.interceptor.LoginInterceptor"></interceptor>
+			<interceptor-stack name="ld">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="loginCheck"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!-- 跳转到登陆页面 -->
+		<global-results>
+			<result name="login">/user/login_form.jsp</result>
+		</global-results>
+		<!-- 购买功能 -->
+		<action name="saveCartItem" class="com.baizhi.cjs.action.CartAction" method="saveCartItem">
+			<result name="success" type="dispatcher">/main/book_detail.jsp</result>
+		</action>
+		<!-- 修改状态为false -->
+		<action name="changeCartItemFalse" class="com.baizhi.cjs.action.CartAction" method="changeCartItemFalse">
+			<result name="success" type="redirect">/cart/cart_list.jsp</result>
+		</action>
+		<!-- 修改状态为true -->
+		<action name="changeCartItemTrue" class="com.baizhi.cjs.action.CartAction" method="changeCartItemTrue">
+			<result name="success" type="redirect">/cart/cart_list.jsp</result>
+		</action>
+		<!-- 修改品数量 -->
+		<action name="changeCartCount" class="com.baizhi.cjs.action.CartAction" method="changeCartCount">
+			<result name="success" type="redirect">/cart/cart_list.jsp</result>
+		</action>
+		<!-- 结算过滤 -->
+		<action name="totalCart" class="com.baizhi.cjs.action.CartAction" method="totalCart">
+			<interceptor-ref name="ld"></interceptor-ref>
+			<result name="success" type="redirect">/order/order_info.jsp</result>
+		</action>
+	</package>
+</struts>

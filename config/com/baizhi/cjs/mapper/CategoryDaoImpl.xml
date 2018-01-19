@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.cjs.dao.CategoryDao">
+	<cache></cache>
+	<!-- 查询所有分类 -->
+	<select id="selectCategoryAll" resultMap="categoryMap">
+		select c1.id id,c1.name name,c1.c_level clevel,c1.book_number cnumber,c2.id id2,c2.name name2,c2.c_level clevel2,c2.book_number cnumber2  
+		from d_category c1 left join d_category c2 
+		on c1.id=c2.c_id 
+		where c1.c_id is null
+	</select>
+	<!-- 根据类别查询图书 -->
+	<select id="selectCategoryBook" resultMap="categoryBookMap">
+		select c1.id id,c1.name name,c1.c_level clevel,c1.book_number cnumber,c2.id id2,c2.name name2,c2.c_level clevel2,c2.book_number cnumber2,b.id bid,b.book_name bname,author,press,edition,print_date pdate,print_number prnumber,isbn,word_number wnumber,page_number panumber,style,paper,packages,recommend,synopsis,au_synopsis asynopsis,directory,comments,stock,picture,plate,new_date ndate,sales,price,d_price dprice,state
+		from d_category c1 left join d_category c2 
+		on c1.id=c2.c_id 
+    	left join d_book b
+    	on c2.id=b.category_id
+		<where>
+			c1.c_id is null
+			<if test="id!=null">and c1.id=#{id}</if>
+			<if test="cid">and c2.id=#{cid}</if>
+		</where>
+	</select>
+	<!-- 根据id查询所有子类别 -->
+	<select id="selectCategoryById" resultMap="categoryMap">
+		select c1.id id,c1.name name,c1.c_level clevel,c1.book_number cnumber,c2.id id2,c2.name name2,c2.c_level clevel2,c2.book_number cnumber2  
+		from d_category c1 left join d_category c2 
+		on c1.id=c2.c_id 
+		where c1.c_id is null and c1.id=#{id}
+	</select>
+	
+	<!-- 根据id查询类别 -->
+	<select id="selectCategoryById2" resultMap="categoryById" parameterType="java.lang.Integer">
+		select id,name,c_level,book_number
+		from d_category
+		where id=#{id}
+	</select>
+	
+	<!-- 根据类别分页查询图书 -->
+	<!--  <select id="" resultMap="" >
+		
+			select c1.id id,c1.name name,c1.c_level clevel,c1.book_number cnumber,c2.id id2,c2.name name2,c2.c_level clevel2,c2.book_number cnumber2,b.id bid,b.book_name bname,author,press,edition,print_date pdate,print_number prnumber,isbn,word_number wnumber,page_number panumber,style,paper,packages,recommend,synopsis,au_synopsis,directory,comments,stock,picture,plate,new_date ndate,sales,price,d_price dprice,state
+			from d_category c1 left join d_category c2 
+			on c1.id=c2.c_id 
+    		left join d_book b
+    		on c2.id=b.category_id
+			<where>
+				c1.c_id is null
+				<if test="id!=null">and c1.id=#{id}</if>
+				<if test="cid">and c2.id=#{cid}</if>
+			</where>
+	</select>-->
+	<!-- 根据一级类别分页查询图书 -->
+	<select id="selectCategoryBookPage1" resultMap="categoryBookMap">
+		select * 
+		from (select rownum rn ,t1.id id,t1.name name,t1.clevel clevel,t1.cnumber cnumber,t1.id2 id2,t1.name2 name2,t1.clevel2 clevel2,t1.cnumber2 cnumber2,t1.bid bid,t1.bname bname,t1.author author,t1.press press,t1.edition edition,t1.pdate pdate,t1.prnumber prnumber,t1.isbn isbn,t1.wnumber wnumber,t1.panumber panumber,t1.style style,t1.paper paper,t1.packages packages,t1.recommend recommend,t1.synopsis,t1.asynopsis asynopsis,t1.directory directory,t1.comments comments,t1.stock stock,t1.picture picture,t1.plate plate,t1.ndate ndate,t1.sales sales,t1.price price,t1.dprice dprice,t1.state state
+		from (select c1.id id,c1.name name,c1.c_level clevel,c1.book_number cnumber,c2.id id2,c2.name name2,c2.c_level clevel2,c2.book_number cnumber2,b.id bid,b.book_name bname,author,press,edition,print_date pdate,print_number prnumber,isbn,word_number wnumber,page_number panumber,style,paper,packages,recommend,synopsis,au_synopsis asynopsis,directory,comments,stock,picture,plate,new_date ndate,sales,price,d_price dprice,state
+		from d_category c1 left join d_category c2 
+		on c1.id=c2.c_id 
+    	left join d_book b
+    	on c2.id=b.category_id
+     	where c1.c_id is null and c1.id=#{id1}) t1 where rownum&lt;=#{page.end}) t2 where t2.rn between  #{page.begin} and #{page.end}
+	</select>
+	<!-- 根据二级类别分页查询图书 -->
+	<select id="selectCategoryBookPage2" resultMap="categoryBookMap">
+		select * 
+		from (select rownum rn ,t1.id id,t1.name name,t1.clevel clevel,t1.cnumber cnumber,t1.id2 id2,t1.name2 name2,t1.clevel2 clevel2,t1.cnumber2 cnumber2,t1.bid bid,t1.bname bname,t1.author author,t1.press press,t1.edition edition,t1.pdate pdate,t1.prnumber prnumber,t1.isbn isbn,t1.wnumber wnumber,t1.panumber panumber,t1.style style,t1.paper paper,t1.packages packages,t1.recommend recommend,t1.synopsis,t1.asynopsis asynopsis,t1.directory directory,t1.comments comments,t1.stock stock,t1.picture picture,t1.plate plate,t1.ndate ndate,t1.sales sales,t1.price price,t1.dprice dprice,t1.state state
+		from (select c1.id id,c1.name name,c1.c_level clevel,c1.book_number cnumber,c2.id id2,c2.name name2,c2.c_level clevel2,c2.book_number cnumber2,b.id bid,b.book_name bname,author,press,edition,print_date pdate,print_number prnumber,isbn,word_number wnumber,page_number panumber,style,paper,packages,recommend,synopsis,au_synopsis asynopsis,directory,comments,stock,picture,plate,new_date ndate,sales,price,d_price dprice,state
+		from d_category c1 left join d_category c2 
+		on c1.id=c2.c_id 
+    	left join d_book b
+    	on c2.id=b.category_id
+     	where c1.c_id is null and c1.id=#{id1} and c2.id=#{id2}) t1 where rownum&lt;=#{page.end}) t2 where t2.rn between  #{page.begin} and #{page.end}
+	</select>
+	<!-- 根据一级类别查询图书总数 -->
+	<select id="selectCategoryBookCount1" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select count(c1.id)
+		from d_category c1 left join d_category c2 
+		on c1.id=c2.c_id 
+    	left join d_book b
+    	on c2.id=b.category_id and c1.c_id is null where b.id is not null  and c1.id=#{id1} group by c1.id
+	</select>
+	<!-- 根据二级类别查询图书总数 -->
+	<select id="selectCategoryBookCount2" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select count(c2.id)
+		from d_category c1 left join d_category c2 
+		on c1.id=c2.c_id 
+    	left join d_book b
+    	on c2.id=b.category_id and c1.c_id is null where b.id is not null  and c2.id=#{id2} group by c1.id, c2.id
+	</select>
+	<resultMap id="categoryById" type="com.baizhi.cjs.entity.Category">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="c_level" property="cLevel"/>
+		<result column="book_number" property="bookNumber"/>
+	</resultMap>
+	
+	
+	<resultMap id="categoryBookMap" type="com.baizhi.cjs.entity.Category">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="clevel" property="cLevel"/>
+		<result column="cnumber" property="bookNumber"/>
+		<collection property="categorys" ofType="com.baizhi.cjs.entity.Category">
+			<id column="id2" property="id"/>
+			<result column="name2" property="name"/>
+			<result column="clevel2" property="cLevel"/>
+			<result column="cnumber2" property="bookNumber"/>
+		</collection>
+		<collection property="books" ofType="com.baizhi.cjs.entity.Book">
+			<id column="bid" property="id"/>
+			<result column="bname" property="bookName"/>
+			<result column="author" property="author"/>
+			<result column="press" property="press"/>
+			<result column="edition" property="edition"/>
+			<result column="pdate" property="printDate"/>
+			<result column="prnumber" property="printNumber"/>
+			<result column="isbn" property="isbn"/>
+			<result column="wnumber" property="wordNumber"/>
+			<result column="panumber" property="pageNumber"/>
+			<result column="style" property="style"/>
+			<result column="paper" property="paper"/>
+			<result column="packages" property="packages"/>
+			<result column="recommend" property="recommend"/>
+			<result column="synopsis" property="synopsis"/>
+			<result column="asynopsis" property="auSynopsis"/>
+			<result column="directory" property="directory"/>
+			<result column="comments" property="comments"/>
+			<result column="stock" property="stock"/>
+			<result column="picture" property="picture"/>
+			<result column="plate" property="plate"/>
+			<result column="ndate" property="newDate"/>
+			<result column="sales" property="sales"/>
+			<result column="price" property="price"/>
+			<result column="dprice" property="dPrice"/>
+			<result column="state" property="state"/>
+		</collection>
+	</resultMap>
+	
+	
+	<resultMap id="categoryMap" type="com.baizhi.cjs.entity.Category">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="clevel" property="cLevel"/>
+		<result column="cnumber" property="bookNumber"/>
+		<collection property="categorys" ofType="com.baizhi.cjs.entity.Category">
+			<id column="id2" property="id"/>
+			<result column="name2" property="name"/>
+			<result column="clevel2" property="cLevel"/>
+			<result column="cnumber2" property="bookNumber"/>
+		</collection>
+	</resultMap>
+	
+</mapper>

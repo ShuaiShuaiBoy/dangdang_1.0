@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.cjs.dao.AddressDao">
+
+	<!-- 添加地址 -->
+	<insert id="insertAddress" parameterType="com.baizhi.cjs.entity.Address">
+		<selectKey resultType="int" keyProperty="id" order="BEFORE">
+			select d_address_seq.nextval from dual
+		</selectKey>
+		insert into d_address values(#{id},#{recName},#{address},#{postCode},#{telphone},#{mobile},#{defaultAddress},#{addressState},#{user.id})
+	</insert>
+	<!-- 修改地址 -->
+	<update id="updateAddress" parameterType="com.baizhi.cjs.entity.Address">
+		update d_address set rec_name=#{recName},address=#{address},post_code=#{postCode},telphone=#{telphone},mobile=#{mobile},default_address=#{defaultAddress},address_state=#{addressState},user_id=#{user.id} where id=#{id}
+	</update>
+	<!-- 根据姓名查询地址 -->
+	<select id="selectAddressByName" parameterType="java.lang.String" resultMap="addressMap" >
+		select a.id aid,rec_name recname,address,post_code postCode,telphone,mobile,default_address defaultAddress,address_state addressState,u.id userid 
+		from d_address a left join d_user u on a.user_id=u.id 
+		where a.rec_name=#{name}
+	</select>
+	
+	<resultMap id="addressMap" type="com.baizhi.cjs.entity.Address">
+		<id column="aid" property="id"/>
+		<result column="recname" property="recName"/>
+		<result column="address" property="address"/>
+		<result column="postCode" property="postCode"/>
+		<result column="telphone" property="telphone"/>
+		<result column="mobile" property="mobile"/>
+		<result column="defaultAddress" property="defaultAddress"/>
+		<result column="addressState" property="addressState"/>
+		<association property="user" javaType="com.baizhi.cjs.entity.User">
+			<id column="userid" property="id"/>
+		</association>
+	</resultMap>
+</mapper>

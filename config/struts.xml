@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<package name="default" extends="struts-default" namespace="/default">
+		
+	</package>
+	
+	<include file="com/baizhi/cjs/struts2/struts-book.xml"/>
+	<include file="com/baizhi/cjs/struts2/struts-category.xml"/>
+	<include file="com/baizhi/cjs/struts2/struts-user.xml"/>
+	<include file="com/baizhi/cjs/struts2/struts-cart.xml"/>
+	<include file="com/baizhi/cjs/struts2/struts-buy.xml"/>
+	<include file="com/baizhi/cjs/struts2/struts-other.xml"/>
+	<include file="com/baizhi/cjs/struts2/struts-address.xml"/>
+</struts>
