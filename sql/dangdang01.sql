@@ -1,5 +1,5 @@
 -- 用户表
-create sequense d_user_seq start with 00001;
+create sequence d_user_seq start with 00001;
 create table d_user(
 	id number primary key,
 	email varchar(30),
@@ -12,7 +12,7 @@ create table d_user(
 );
 
 --地址表
-create sequense d_address_seq start with 00001;
+create sequence d_address_seq start with 00001;
 create table d_address(
 	id number primary key,
 	user_id number,
@@ -26,7 +26,7 @@ create table d_address(
 );
 
 --图书表
-create sequense d_book_seq start with 00001;
+create sequence d_book_seq start with 00001;
 create table d_book(
 	id number primary key,
 	bookName varchar(150),
@@ -58,7 +58,7 @@ create table d_book(
 );
 
 --类别表
-create sequense d_category_seq start with 00001;
+create sequence d_category_seq start with 00001;
 create table d_category(
 	id number primary key,
 	name varchar(30),
@@ -68,7 +68,7 @@ create table d_category(
 );
 
 --订单表
-create sequense d_order_seq start with 00001;
+create sequence d_order_seq start with 00001;
 create table d_order(
 	id number primary key,
 	order_id number,
@@ -80,7 +80,7 @@ create table d_order(
 );
 
 --订单项表
-create sequense d_orderitem_seq start with 00001;
+create sequence d_orderitem_seq start with 00001;
 create table d_orderitem(
 	id number primary key,
 	item_id number,
