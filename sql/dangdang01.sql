@@ -3,11 +3,11 @@ create sequence d_user_seq start with 00001;
 create table d_user(
 	id number primary key,
 	email varchar(30),
-	niceName varchar(30),
+	nickname varchar(30),
 	password varchar(30),
 	state varchar(30),
-	registerDate date,
-	lastDate date,
+	register_date date,
+	last_date date,
 	code varchar(30)
 );
 
@@ -16,43 +16,43 @@ create sequence d_address_seq start with 00001;
 create table d_address(
 	id number primary key,
 	user_id number,
-	recName varchar(30),
+	rec_name varchar(30),
 	address varchar(200),
-	postCode number,
+	post_code number,
 	telphone varchar(20),
 	mobile varchar(20),
-	defaultAddress varchar(10),
-	addressState varchar(10)
+	default_address varchar(10),
+	address_state varchar(10)
 );
 
 --图书表
 create sequence d_book_seq start with 00001;
 create table d_book(
 	id number primary key,
-	bookName varchar(150),
+	book_name varchar(150),
 	author varchar(50),
 	press varchar(100),
 	edition number,
-	printDate date,
-	printNumber number,
+	print_date date,
+	print_number number,
 	isbn number,
-	wordNumber number,
-	pageNumber number,
+	word_number number,
+	page_number number,
 	style varchar(30),
 	paper varchar(30),
 	packages varchar(30),
 	recommend varchar(200),
 	synopsis varchar(300),
-	auSynopsis varchar(200),
+	au_synopsis varchar(200),
 	directory varchar(300),
 	comments varchar(300),
 	stock number,
 	picture varchar(100),
 	plate varchar(100),
-	newDate date,
+	new_date date,
 	sales number,
 	price number(5,2),
-	dPrice number(5,2),
+	d_price number(5,2),
 	state varchar(30),
 	category_id number
 );
@@ -63,7 +63,7 @@ create table d_category(
 	id number primary key,
 	name varchar(30),
 	cLevel number,
-	bookNumber number,
+	book_number number,
 	c_id number
 );
 
